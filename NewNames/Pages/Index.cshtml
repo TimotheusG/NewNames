@@ -13,17 +13,17 @@
         {
             public string name { get; set; }
         }       
-        public static Person tim = new Person();
-        public static Person mel = new Person();
+        public static Person male = new Person();
+        public static Person female = new Person();
         public void OnGet()
         {            
-            tim.name = GetNewName(true);
-            mel.name = GetNewName(false);
+            male.name = GetNewName(true);
+            female.name = GetNewName(false);
         }
         public void Gen()
         {
-            tim.name = GetNewName(true);
-            mel.name = GetNewName(false);
+            male.name = GetNewName(true);
+            female.name = GetNewName(false);
         }
         public string GetNewName(bool gender)
         {
@@ -63,12 +63,12 @@
         <tbody>
             <tr>
                 <td>
-                    <img src="~/images/Tim1.jpg"  class="rounded-circle"height="200" width="200" asp-append-version="true" />  
-                    <p>@IndexModel.tim.name</p>
+                    <img src="~/images/Male1.jpg"  class="rounded-circle"height="200" width="200" asp-append-version="true" />  
+                    <p>@IndexModel.male.name</p>
                 </td>
                 <td>
-                    <img src="~/images/Mel1.jpg"  class="rounded-circle"height="200" width="200" asp-append-version="true" />  
-                        <P>@IndexModel.mel.name</p>
+                    <img src="~/images/Female1.jpg"  class="rounded-circle"height="200" width="200" asp-append-version="true" />  
+                        <P>@IndexModel.female.name</p>
                 </td>
             </tr>
         </tbody>
