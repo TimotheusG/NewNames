@@ -1,0 +1,76 @@
+﻿@page
+@model IndexModel
+@using Microsoft.AspNetCore.Mvc.RazorPages
+@using System.Net.Http.Headers
+@using System;
+@using System.Collections.Generic;
+@using System.Net.Http;
+
+@functions {
+    public class IndexModel : PageModel
+    {
+        public class Person
+        {
+            public string name { get; set; }
+        }       
+        public static Person tim = new Person();
+        public static Person mel = new Person();
+        public void OnGet()
+        {            
+            tim.name = GetNewName(true);
+            mel.name = GetNewName(false);
+        }
+        public void Gen()
+        {
+            tim.name = GetNewName(true);
+            mel.name = GetNewName(false);
+        }
+        public string GetNewName(bool gender)
+        {
+            string name = "";
+            HttpClient client = new HttpClient();
+            string urlParameters = "";
+            if(gender)
+            {
+                client.BaseAddress = new Uri("https://api.namefake.com/english-united-states/male/");
+            }
+            else
+            {
+                client.BaseAddress = new Uri("https://api.namefake.com/english-united-states/female/");
+            }
+            
+            HttpResponseMessage response = client.GetAsync(urlParameters).Result;
+            if(response.IsSuccessStatusCode)
+            {
+                var dataObjects = response.Content.ReadFromJsonAsync<Person>().Result;
+                name = dataObjects.name;
+            }
+            else
+            {
+                Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+            }
+            client.Dispose();
+            return name;
+        }
+   
+    }
+}
+
+<div class="text-center">
+    <h1 class="display-4">Pick Better Names!</h1>
+    <a href="/" value="Try for better names!" />
+    <table>        
+        <tbody>
+            <tr>
+                <td>
+                    <img src="~/images/Tim1.jpg"  class="rounded-circle"height="200" width="200" asp-append-version="true" />  
+                    <p>@IndexModel.tim.name</p>
+                </td>
+                <td>
+                    <img src="~/images/Mel1.jpg"  class="rounded-circle"height="200" width="200" asp-append-version="true" />  
+                        <P>@IndexModel.mel.name</p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
